@@ -1,8 +1,6 @@
 .reasons {
   background-color: $secondery-bg;
-  @media (max-width: $breakpoint768) {
-    padding-bottom: 4rem;
-  }
+
   .container {
     display: flex;
     gap: 8.7rem;
