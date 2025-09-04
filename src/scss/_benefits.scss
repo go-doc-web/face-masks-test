@@ -1,0 +1,81 @@
+.benefits__section {
+  padding: 7.2rem 0 8rem;
+  background-color: $secondery-bg;
+  @media (max-width: $breakpoint768) {
+    padding: 4rem 0 4rem;
+  }
+  @media (max-width: $breakpoint375) {
+    padding: 3rem 0 3rem;
+  }
+}
+
+.benefits__items {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3.1rem;
+
+  @media (max-width: 1251px) {
+    flex-wrap: wrap;
+  }
+  @media (max-width: $breakpoint480) {
+    display: flex;
+    gap: 2rem;
+  }
+}
+
+.benefits__item {
+  display: flex;
+  width: calc((100% - 93px) / 4);
+  align-items: start baseline;
+  gap: 2rem;
+  @media (max-width: 1251px) {
+    width: calc((100% - 31px) / 2);
+  }
+  @media (max-width: $breakpoint480) {
+    width: 100%;
+  }
+}
+
+.benefits__content {
+  max-width: 194px;
+  @media (max-width: 1251px) {
+    max-width: 100%;
+  }
+
+  .benefits__content-title {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.benefits__content-title {
+  @media (max-width: $breakpoint375) {
+    text-align: center;
+    font-size: 1.8rem;
+  }
+}
+
+.benefits__content-text {
+  color: $color-text-primery;
+  font-family: "Open Sans";
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: calc(2.2rem / 1.5rem); /* 146.667% */
+  @media (max-width: $breakpoint375) {
+    font-size: 1.4rem;
+  }
+}
+
+.benefits__icon-1 {
+  mask-image: url("../img/icons/benefits_img_1.svg");
+}
+.benefits__icon-2 {
+  mask-image: url("../img/icons/benefits_img_2.svg");
+}
+.benefits__icon-3 {
+  mask-image: url("../img/icons/benefits_img_3.svg");
+}
+.benefits__icon-4 {
+  mask-image: url("../img/icons/benefits_img_4.svg");
+}

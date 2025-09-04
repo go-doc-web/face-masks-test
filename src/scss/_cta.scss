@@ -1,0 +1,31 @@
+.section__cta {
+  padding-top: 19rem;
+  padding-bottom: 12rem;
+
+  @media (max-width: $breakpoint1180) {
+    padding-top: 17rem;
+  }
+  @media (max-width: $breakpoint768) {
+    padding-bottom: 4rem;
+    padding-top: 11rem;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.cta__title {
+  margin-bottom: 3.5rem;
+  text-align: center;
+  @media (max-width: $breakpoint480) {
+    font-size: 3rem;
+  }
+}
+
+.cta__text {
+  margin-bottom: 3.5rem;
+  max-width: 664px;
+  text-align: center;
+}

@@ -1,0 +1,112 @@
+.section-about {
+  padding: 8rem 0;
+
+  position: relative;
+  z-index: 1;
+  @media (max-width: $breakpoint768) {
+    padding: 6rem 0;
+  }
+  @media (max-width: $breakpoint768) {
+    padding: 4rem 0;
+  }
+  &__figure {
+    position: absolute;
+    top: -19rem;
+    left: 0;
+    z-index: 1;
+    @media (max-width: $breakpoint375) {
+      top: -10rem;
+    }
+    svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-width: 756px;
+    }
+  }
+
+  &__items {
+    display: flex;
+    flex-direction: column;
+    gap: 6.2rem;
+    z-index: 1;
+    position: relative;
+    @media (max-width: $breakpoint480) {
+      gap: 3rem;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4.7rem;
+    @media (max-width: $breakpoint768) {
+      gap: 1.6rem;
+    }
+
+    &:nth-child(2n) {
+      flex-direction: row-reverse;
+    }
+
+    @media (max-width: 1180px) {
+      flex-direction: column;
+      &:nth-child(2n) {
+        flex-direction: column;
+      }
+    }
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    @media (max-width: 1180px) {
+      width: 100%;
+      height: 308px;
+    }
+  }
+
+  &__img-wrapper {
+    border-radius: 16px 16px 16px 0;
+    background: #fff;
+
+    overflow: hidden;
+    flex: 0 0 auto;
+    @media (max-width: 1180px) {
+      width: 100%;
+    }
+  }
+
+  .section-about__content {
+    display: flex;
+    flex-direction: column;
+  }
+  &__subtitle {
+    margin-bottom: 2.6rem;
+    color: $dark-1-color;
+    font-family: $fontSecondary;
+    font-size: 4.8rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: calc(5rem / 4.8rem); /* 104.167% */
+  }
+  .section-about__text {
+    color: $color-text-primery;
+    font-family: $fontMain;
+    font-size: 1.6rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: calc(3rem / 1.6rem);
+
+    @media (max-width: $breakpoint768) {
+      font-size: 1.5rem;
+    }
+  }
+  .section-about__text + .section-about__text {
+    margin-top: 4.9rem;
+    @media (max-width: $breakpoint480) {
+      margin-top: 2.9rem;
+    }
+  }
+}
