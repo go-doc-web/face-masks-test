@@ -1,6 +1,19 @@
+const { src, dest } = require("gulp");
+const gulp = require("gulp");
+const browsersync = require("browser-sync").create();
+const fileinclude = require("gulp-file-include");
+const del = require("del");
+const scss = require("gulp-sass")(require("sass"));
+const autoprefixer = require("gulp-autoprefixer");
+const group_media = require("gulp-group-css-media-queries");
+const clean_css = require("gulp-clean-css");
+const rename = require("gulp-rename");
+const uglify = require("gulp-uglify-es").default;
+const imagemin = require("gulp-imagemin");
 const replace = require("gulp-replace");
-const ghPages = require("gulp-gh-pages");
+const ghpages = require("gh-pages");
 
+// Folders
 let project_folder = "build";
 let source_folder = "src";
 
@@ -21,7 +34,7 @@ let path = {
   },
   watch: {
     html: source_folder + "/**/*.html",
-    css: source_folder + ["/scss/**/*.scss"],
+    css: source_folder + "/scss/**/*.scss",
     js: source_folder + "/js/**/*.js",
     img: source_folder + "/img/**/*.{png,jpg,jpeg,ico,svg,webp}",
     fonts: source_folder + "/fonts/*",
@@ -29,25 +42,10 @@ let path = {
   clean: "./" + project_folder + "/",
 };
 
-let { src, dest } = require("gulp"),
-  gulp = require("gulp"),
-  browsersync = require("browser-sync").create(),
-  fileinclude = require("gulp-file-include"),
-  del = require("del"),
-  scss = require("gulp-sass")(require("sass")),
-  autoprefixer = require("gulp-autoprefixer"),
-  group_media = require("gulp-group-css-media-queries"),
-  clean_css = require("gulp-clean-css"),
-  rename = require("gulp-rename"),
-  uglify = require("gulp-uglify-es").default,
-  imagemin = require("gulp-imagemin");
-
 // Browser Sync
-function browserSync(params) {
+function browserSync() {
   browsersync.init({
-    server: {
-      baseDir: "./" + project_folder + "/",
-    },
+    server: { baseDir: "./" + project_folder + "/" },
     port: 3000,
     notify: false,
   });
@@ -59,7 +57,7 @@ function html() {
     .pipe(fileinclude())
     .pipe(replace("../img/", "img/"))
     .pipe(dest(path.build.html))
-    .pipe(browsersync.reload({ stream: true }));
+    .pipe(browsersync.stream());
 }
 
 // Images
@@ -76,7 +74,7 @@ function fonts() {
     .pipe(browsersync.stream());
 }
 
-// Images Compress
+// Images compress
 function img() {
   return src(path.src.img)
     .pipe(
@@ -92,17 +90,13 @@ function img() {
     .pipe(dest(path.build.img));
 }
 
-// JavaScript
+// JS
 function js() {
   return src(path.src.js)
     .pipe(fileinclude())
     .pipe(dest(path.build.js))
     .pipe(uglify())
-    .pipe(
-      rename({
-        extname: ".min.js",
-      })
-    )
+    .pipe(rename({ extname: ".min.js" }))
     .pipe(dest(path.build.js))
     .pipe(browsersync.stream());
 }
@@ -110,67 +104,57 @@ function js() {
 // CSS
 function css() {
   return src(path.src.css)
-    .pipe(
-      scss({
-        outputStyle: "expanded",
-      })
-    )
+    .pipe(scss({ outputStyle: "expanded" }))
     .pipe(group_media())
     .pipe(
-      autoprefixer({
-        cascade: true,
-        overrideBrowserslist: ["last 5 versions"],
-      })
+      autoprefixer({ cascade: true, overrideBrowserslist: ["last 5 versions"] })
     )
     .pipe(dest(path.build.css))
     .pipe(clean_css())
-    .pipe(
-      rename({
-        extname: ".min.css",
-      })
-    )
+    .pipe(rename({ extname: ".min.css" }))
     .pipe(dest(path.build.css))
     .pipe(browsersync.stream());
 }
 
-// Watch Files
-function watchFiles(params) {
-  gulp.watch([path.watch.html], html);
-  gulp.watch([path.watch.css], css);
-  gulp.watch([path.watch.js], js);
-  gulp.watch([path.watch.img], images);
-  gulp.watch([path.watch.fonts], fonts);
+// Watch
+function watchFiles() {
+  gulp.watch(path.watch.html, html);
+  gulp.watch(path.watch.css, css);
+  gulp.watch(path.watch.js, js);
+  gulp.watch(path.watch.img, images);
+  gulp.watch(path.watch.fonts, fonts);
 }
 
 // Clean
-function clean(params) {
+function clean() {
   return del(path.clean);
 }
 
-// let build = gulp.series(clean, gulp.parallel(html, js, css, images, fonts))
-
-// Without clean build
+// Build
 let build = gulp.series(gulp.parallel(html, js, css, images, fonts));
 let watch = gulp.parallel(build, watchFiles, browserSync);
 
-gulp.task("deploy", function () {
+// Deploy  gh-pages
+gulp.task("deploy", (done) => {
   console.log("Deploying to gh-pages...");
-  return gulp
-    .src("./build/**/*")
-    .pipe(
-      ghPages({
-        remoteUrl: "git@github.com:go-doc-web/face-masks-test.git",
-        branch: "gh-pages",
-      })
-    )
-    .on("error", (err) => {
-      console.error("Deploy error:", err);
-    })
-    .on("end", () => {
-      console.log("Deploy completed!");
-    });
+  ghpages.publish(
+    "build",
+    {
+      branch: "gh-pages",
+      repo: "git@github.com:go-doc-web/face-masks-test.git",
+    },
+    (err) => {
+      if (err) {
+        console.error("Deploy error:", err);
+      } else {
+        console.log("Deploy completed!");
+      }
+      done();
+    }
+  );
 });
 
+// Exsports
 exports.img = img;
 exports.images = images;
 exports.js = js;
