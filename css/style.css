@@ -1816,16 +1816,13 @@ body.dark {
     gap: 4rem;
   }
 
-  .reasons {
-    padding-bottom: 4rem;
-  }
-
   .reasons__item {
     width: 100%;
   }
 
   .reviews {
     padding: 0 0 4rem;
+    margin-top: -2rem;
   }
 
   .section__cta {
