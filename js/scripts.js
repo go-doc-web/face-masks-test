@@ -1,5 +1,5 @@
 // Custom Scripts
-// Мобильное меню бургер
+// Mobile burger Menu
 function burgerMenu() {
   const burger = document.querySelector(".burger");
   const menu = document.querySelector(".menu");
@@ -25,103 +25,34 @@ function burgerMenu() {
   });
 }
 burgerMenu();
+// Modal
+function bindModal(trigger, modal, close) {
+  (trigger = document.querySelector(".nav__btn")),
+    (modal = document.querySelector(".modal__wrapper")),
+    (close = document.querySelector(".modal__close"));
 
-const concerts = [
-  {
-    city: "Київ",
-    venue: "Docker-G Pub",
-    seats: 250,
-    datetime: "26.10.2025, 15:00",
-  },
-  {
-    city: "Львів",
-    venue: "!FESTrepublic",
-    seats: 400,
-    datetime: "01.11.2025, 20:00",
-  },
-  {
-    city: "Одеса",
-    venue: "Зелений театр",
-    seats: 700,
-    datetime: "09.11.2025, 19:30",
-  },
-  {
-    city: "Харків",
-    venue: "ArtZavod",
-    seats: 500,
-    datetime: "16.11.2025, 20:00",
-  },
-];
+  const body = document.body;
 
-const tBody = document.querySelector(".table-body");
-concerts.forEach((concert) => {
-  const row = document.createElement("tr");
-  row.innerHTML = `
-            <td>${concert.city} — ${concert.venue}</td>
-            <td>${concert.seats}</td>
-            <td>${concert.datetime}</td>
-            <td><button class="table-btn btn">Замовити квиток</button></td>
-
-    `;
-  tBody.appendChild(row);
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("contact-form");
-
-  if (!form) {
-    console.error('Форма з ID "contactForm" не знайдена.');
-    return;
+  if (trigger) {
+    trigger.addEventListener("click", (e) => {
+      e.preventDefault();
+      modal.style.display = "flex";
+      body.classList.add("locked");
+    });
   }
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-
-    const nameInput = document.getElementById("name");
-    const emailInput = document.getElementById("email");
-    const messageInput = document.getElementById("message");
-
-    const nameError = nameInput.nextElementSibling;
-    const emailError = emailInput.nextElementSibling;
-    const messageError = messageInput.nextElementSibling;
-
-    let isValid = true;
-
-    nameError.textContent = "";
-    emailError.textContent = "";
-    messageError.textContent = "";
-
-    if (nameInput.value.trim() === "") {
-      nameError.textContent = "Ім'я є обов'язковим.";
-      isValid = false;
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (emailInput.value.trim() === "") {
-      emailError.textContent = "Email є обов'язковим.";
-      isValid = false;
-    } else if (!emailRegex.test(emailInput.value)) {
-      emailError.textContent = "Будь ласка, введіть коректний email.";
-      isValid = false;
-    }
-
-    if (messageInput.value.trim() === "") {
-      messageError.textContent = "Повідомлення є обов’язковим.";
-      isValid = false;
-    }
-
-    if (isValid) {
-      // Якщо форма валідна, створюємо GET-запит
-      const formData = new FormData(form);
-      const queryString = new URLSearchParams(formData).toString();
-      const url = `submit-form?${queryString}`;
-
-      alert(`Дані форми валідні. Відправляємо GET запит на URL:${url}`);
-      console.log("Дані форми валідні. Відправляємо GET запит на URL:");
-      console.log(url);
-
-      form.reset();
+  close.addEventListener("click", () => {
+    modal.style.display = "none";
+    body.classList.remove("locked");
+  });
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.style.display = "none";
+      body.classList.remove("locked");
     }
   });
-});
+}
+
+bindModal(".nav__btn", ".modal__wrapper", ".modal__close");
+
+console.log("Ширина вьюпорта: " + window.innerWidth + "px");
 
